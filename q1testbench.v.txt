@@ -1,0 +1,26 @@
+module testbench;
+
+    reg  A_input, B_input, C_input;
+    wire Sum, C_output;  
+
+    //instantiate the design module and connect to the testbench variables
+    full_adder tempName (.a(A_input), .b(B_input), .cin(C_input), .s(Sum), .cout(C_output));
+
+    initial begin
+        A_input=0;
+        B_input=0;
+        C_input=0;
+        #73 $finish;
+    end
+
+    //we update the values of the test inputs at required intervals
+    always #40 A_input=~A_input;
+    always #20 B_input=~B_input;
+    always #10 C_input=~C_input;
+
+    //display output if there’s a change in the input event
+    always @(A_input or B_input or C_input) begin
+        #1
+        $display("At TIME(in ns)=%t, A=%d B=%d C=%d Carry = %d Sum = %d", $time, A_input, B_input, C_input, C_output, Sum);
+    end
+endmodule

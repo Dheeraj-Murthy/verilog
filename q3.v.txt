@@ -1,0 +1,36 @@
+module or1(input a, input b, output reg y);
+
+    always @* begin
+        y = a | b;
+    end
+endmodule
+
+module mux(input s, input a, input b, output reg y);
+    always @* begin
+        if (s)
+            y = b;
+        else
+            y = a;
+    end
+endmodule
+
+module my_func(input i1, input i2, input i3, input i4, input i5, input i6, input i7, input i8, output f);
+    wire m0, m1, m2;
+    
+    or1 g_1 (i1, i2, m0);
+    mux g_2 (i3, i4, i5, m1);
+    mux g_3 (i6, i7, i8, m2);
+    mux g_4 (m0, m1, m2, f);
+endmodule
+
+module ques(w1, w2, w3, f);
+    input w1, w2, w3;
+    output f;
+    wire n0, n1, n2;
+    
+    my_func A_1(w3, w3, 1'b0, 1'b0, 1'b0, w2, 1'b0, w1, n0);
+    my_func N_1(w2, w2, w1, 1'b1, 1'b0, 1'b0, 1'b0, 1'b0, n1);
+    my_func N_2(w3, w3, n1, 1'b0, 1'b1, 1'b0, 1'b0, 1'b0, n2);
+    my_func O_1(n0, n0, n2, 1'b0, 1'b1, 1'b1, 1'b1, 1'b1, f);
+    
+endmodule

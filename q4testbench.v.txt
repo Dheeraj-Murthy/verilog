@@ -1,0 +1,24 @@
+module testbench;
+    reg [7:0]A;
+    wire Ans;
+    
+    required_module temp (.A(A), .ans(Ans));
+    
+    initial begin
+        A = 8'b00000101;
+        #10 A = 8'b01010101;
+        #10 A = 8'b01100110;
+        #10 A = 8'b00001100;
+        #10 A = 8'b00100101;
+        #10 A = 8'b01010111;
+        #10 A = 8'b11000110;
+        
+    end
+
+    always @(A) begin
+        #1
+        $display("Are there adjacent ones in %b ? ", A);
+        if (Ans) $display("Yes");
+        else $display("No");
+    end
+endmodule

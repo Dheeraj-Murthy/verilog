@@ -1,0 +1,35 @@
+
+module testbench;
+    reg [3:0]A;
+    reg [3:0]B;
+    wire gt, lt, eq;
+
+    
+    magnitude_comparator mag_comp_inst (.a(A), .b(B), .a_gt_b(gt), .a_lt_b(lt), .a_eq_b(eq));
+    
+    initial begin
+        A = 4'b1111;
+        B = 4'b0000;
+        for (integer i = 0; i< 16; i++) begin
+            for (integer j = 0; j < 16; j++) begin
+                #10 B++;
+            end
+            #10 A++;
+            B = (B == 4'b1111 ? 4'b0000 : B);
+        end
+    end
+
+    always @* begin
+        #1
+        if (lt) begin
+            $display("At time= %t, \nA = %b, B = %b, \nA IS LESS THAN B", $time, A, B); 
+        end
+        if (gt) begin
+            $display("At time= %t, \nA = %b, B = %b, \nA IS GREATER THAN B", $time, A, B);
+        end
+        if (eq) begin
+            $display("At time= %t, \nA = %b, B = %b, \nA IS EQUAL TO B", $time, A, B);
+        end  
+    end
+        
+endmodule

@@ -1,0 +1,21 @@
+
+module main;
+    reg w1, w2, w3;
+    wire f;
+    integer i;
+    
+    ques q(w1, w2, w3, f);
+    
+    initial begin
+        w1 = 1'b0;
+        w2 = 1'b0;
+        w3 = 1'b0;
+        
+        $monitor("Time = %t \nw1 = %b, w2 = %b, w3 = %b, f = %b", $time, w1, w2, w3, f);
+        for (i = 1; i < 8; i = i + 1) begin
+            #10;
+            {w1, w2, w3} = {w1, w2, w3} + 1'b1;
+        end
+        #100 $finish;
+    end
+endmodule

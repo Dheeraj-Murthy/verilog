@@ -1,0 +1,23 @@
+module testbench;
+    reg clk, w;
+    wire z;
+    
+    fsm temp (.clk(clk), .w(w), .z(z));
+    
+    initial begin
+        w = 0;
+        clk = 0;
+        for (integer i = 0; i < 30; i++) begin
+            #10 clk = ~clk;
+        end
+    end
+    
+    initial begin
+        #110 w = 1;
+    end
+    
+    always @(posedge clk)
+    begin
+        $display("-----------------\nat time = %t and clock rose to %d and w is %s",$time, clk, (w==1 ? "1" :" 0"));
+    end
+endmodule

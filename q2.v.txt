@@ -1,0 +1,30 @@
+
+module magnitude_comparator(input [3:0] a, input [3:0] b, output reg a_gt_b, output reg a_lt_b, output reg a_eq_b);
+
+    reg [3:0]x;
+
+    initial
+    begin
+        a_gt_b = 1'b0;
+        a_lt_b = 1'b0;
+        a_eq_b = 1'b0;
+        for (integer k = 0; k < 4; k++) begin
+            x[k] = (a[k]&b[k]) | (~a[k]&~b[k]);
+        end
+    end
+    
+    always @* begin
+    a_gt_b <= (a[3] & (~b[3])) | 
+         (x[3] & a[2] & (~b[2])) | 
+         (x[3] & x[2] & a[1] & (~b[1])) | 
+         (x[3] & x[2] & x[1] & a[0] & (~b[0]));
+
+    a_lt_b <= (b[3] & (~a[3])) | 
+         (x[3] & b[2] & (~a[2])) | 
+         (x[3] & x[2] & b[1] & (~a[1])) | 
+         (x[3] & x[2] & x[1] & b[0] & (~a[0]));
+
+    a_eq_b <= x[3] & x[2] & x[1] & x[0];
+    //a_eq_b = (a == b);
+    end
+endmodule
